@@ -1,0 +1,8 @@
+# Local preview of the README (scripts/preview.py)
+preview.html
+
+# Upload sources for the profile picture, not part of the README
+avatar/
+
+__pycache__/
+.DS_Store

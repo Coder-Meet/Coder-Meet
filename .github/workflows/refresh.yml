@@ -1,0 +1,45 @@
+name: Refresh contribution calendar
+
+on:
+  schedule:
+    - cron: "17 6 * * *" # daily, 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Standard library only: the type is set from scripts/glyphs.json, so
+      # nothing has to be installed here.
+      #
+      # The default GITHUB_TOKEN only sees private contributions if
+      # "Private contributions" is turned on under Profile settings >
+      # Contributions & activity. When this was set up, 2,343 of the 2,496
+      # contributions were private, so with that setting off the number in
+      # the chart drops to the public ones only.
+      - name: Redraw the calendar
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_LOGIN: ${{ github.repository_owner }}
+        run: python3 scripts/contributions.py
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- assets/contributions-dark.svg assets/contributions-light.svg; then
+            echo "Calendar unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/contributions-dark.svg assets/contributions-light.svg
+          git commit -m "Refresh contribution calendar"
+          git push
