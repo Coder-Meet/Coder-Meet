@@ -11,7 +11,7 @@ I build agents and the backend systems around them. I'm a third-year Computer Sc
 
 ### Latest
 
-- Software engineer intern at Quantified Health in Toronto, working across a NestJS and GraphQL API, a React pharmacy portal and a patient app.
+- Software engineer intern at Modern Menopause in Toronto, working across a NestJS and GraphQL API, a React pharmacy portal and a patient app.
 - Computer Science at the University of Waterloo, AI specialization, 3.9 GPA.
 - Open to Summer 2027 internships.
 
